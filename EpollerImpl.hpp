@@ -8,6 +8,7 @@
 #ifndef EPOLLERIMPL_H
 #define EPOLLERIMPL_H
 #include <vector>
+#define MAX_EVENTS_SIZE 512
 class EpollerImpl
 {
   public:
