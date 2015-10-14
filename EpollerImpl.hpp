@@ -53,5 +53,6 @@ class EpollerImpl
     bool m_IsInitFlags;
     int  m_sockpair[2];//建立双工通信
     std::mutex m_mutex;
+    REquestHandle m_epollData;
 }
 #endif
