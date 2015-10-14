@@ -16,20 +16,19 @@ typedef SOCKET GAVIN_SOCKET
 #endif
   inline bool SetNoDelay(GAVIN_SOCKET fd)
   {
-  #ifndef WIN_32
+#ifndef WIN_32
     int isTrue = true?1:0;
     //                  IPPROTO_TCP表示在那个层
     //level：选项定义的层次；支持SOL_SOCKET、IPPROTO_TCP、IPPROTO_IP和IPPROTO_IPV6。
     //获取或者设置与某个套接字关联的选项
     return setsockopt(fd,IPPROTO_TCP,TCP_NODELAY,(char*)&isTrue,sizeof(isTrue)) == 0;//TCP_NODELAY BOOL 禁止发送合并的Nagle算法。
-  #else
-    int fd_flags;
-    bool isTrue = TRUE ;
-    if(setsockopt(fd,IPPROTO_TCP,(char*)&isTrue,sizeof(isTrue)) != 0)
-    {
-      return false;
-    }
-    fd_flags = ::fcntl(fd)
+#endif
+  inline bool SetNonBlocking(GAVIN_SOCKET fd)
+  {
+#ifndef WIN_32
+    return fcntl((fd),F_SETFL,fcntl((fd),F_GETFL) | O_NONBLOCK) == 0;
+#endif
+  }
   }
 }
 #endif
