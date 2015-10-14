@@ -30,6 +30,13 @@ typedef SOCKET GAVIN_SOCKET
     return fcntl((fd),F_SETFL,fcntl((fd),F_GETFL) | O_NONBLOCK) == 0;
 #endif
   }
+   enum LINK_STATUS
+   {
+     LS_UNINITIALIZE, //socket 构造后的状态
+     LS_WAITLINK,     // socket init之后的状态
+     LS_ESTABLISHED,  // 正常通信状态 
+     LS_CLOSE
+   };
   struct Requesthandle
   {
     epoll_event _event;
