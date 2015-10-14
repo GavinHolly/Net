@@ -23,12 +23,31 @@ typedef SOCKET GAVIN_SOCKET
     //获取或者设置与某个套接字关联的选项
     return setsockopt(fd,IPPROTO_TCP,TCP_NODELAY,(char*)&isTrue,sizeof(isTrue)) == 0;//TCP_NODELAY BOOL 禁止发送合并的Nagle算法。
 #endif
+  }
   inline bool SetNonBlocking(GAVIN_SOCKET fd)
   {
 #ifndef WIN_32
     return fcntl((fd),F_SETFL,fcntl((fd),F_GETFL) | O_NONBLOCK) == 0;
 #endif
   }
-  }
+  struct Requesthandle
+  {
+    epoll_event _event;
+    char        _type;
+    char        _linkstat;
+    int         _fd;
+    void*       _ptr;
+    enum REG_TYPE
+    {
+      REG_POLLER,
+      REG_TCP_SOCKET,
+      REG_TCP_ACCEPT,
+      REG_DUP_SOCKET
+    };
+    REquestHandle()
+    {
+      memset(this,0,sizeof(*this));
+    }
+  };
 }
 #endif
